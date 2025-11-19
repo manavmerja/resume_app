@@ -7,13 +7,36 @@ $last_tpl = isset($_COOKIE['last_tpl']) ? $_COOKIE['last_tpl'] : 'Simple';
 
 if (isset($_POST['save'])) {
     $uid = $_SESSION['user_id'];
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $tpl = mysqli_real_escape_string($conn, $_POST['template']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $edu = mysqli_real_escape_string($conn, $_POST['education']);
+    $skills = mysqli_real_escape_string($conn, $_POST['skills']);
 
-    setcookie("last_tpl", $_POST['template'], time() + (86400 * 30), "/");
+    // Image Upload Logic
+    $profile_pic = "default.png"; // Default if no image uploaded
+    if(isset($_FILES['photo']) && $_FILES['photo']['error'] == 0){
+        $allowed = ['jpg', 'jpeg', 'png'];
+        $filename = $_FILES['photo']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        
+        if(in_array($ext, $allowed)){
+            $new_name = "user_" . $uid . "_" . time() . "." . $ext;
+            move_uploaded_file($_FILES['photo']['tmp_name'], "uploads/" . $new_name);
+            $profile_pic = $new_name;
+        }
+    }
 
-    $sql = "INSERT INTO resumes (user_id, title, template, phone, education, skills) 
-            VALUES ('$uid', '$_POST[title]', '$_POST[template]', '$_POST[phone]', '$_POST[education]', '$_POST[skills]')";
-    mysqli_query($conn, $sql);
-    header("Location: index.php");
+    setcookie("last_tpl", $tpl, time() + (86400 * 30), "/");
+
+    $sql = "INSERT INTO resumes (user_id, title, template, phone, education, skills, profile_pic) 
+            VALUES ('$uid', '$title', '$tpl', '$phone', '$edu', '$skills', '$profile_pic')";
+    
+    if(mysqli_query($conn, $sql)){
+        header("Location: index.php");
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 ?>
 
@@ -25,13 +48,20 @@ if (isset($_POST['save'])) {
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="card shadow-lg mx-auto" style="max-width: 700px;">
         <div class="card-header bg-primary text-white">
-            <h3 class="mb-0"> Build Your Resume</h3>
+            <h3 class="mb-0">📝 Build Your Resume</h3>
         </div>
         <div class="card-body p-4">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
+                
+                <div class="mb-4 text-center">
+                    <label class="form-label fw-bold">Profile Photo</label>
+                    <input type="file" name="photo" class="form-control" accept="image/*">
+                    <small class="text-muted">Recommended: Square JPG/PNG</small>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold">Resume Title</label>
@@ -53,7 +83,7 @@ if (isset($_POST['save'])) {
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Education Details</label>
-                    <textarea name="education" class="form-control" rows="3" placeholder="Enter Degree, College, Year"></textarea>
+                    <textarea name="education" class="form-control" rows="3" placeholder="Degree, College, Year"></textarea>
                 </div>
 
                 <div class="mb-4">
@@ -62,7 +92,7 @@ if (isset($_POST['save'])) {
                 </div>
 
                 <div class="d-grid gap-2">
-                    <button type="submit" name="save" class="btn btn-success btn-lg">Save</button>
+                    <button type="submit" name="save" class="btn btn-success btn-lg">Save Resume</button>
                     <a href="index.php" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>

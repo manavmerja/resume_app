@@ -48,15 +48,31 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
         <a href="create.php" class="btn btn-primary btn-lg mt-3">+ Create Resume</a>
         <hr class="my-5">
         <h4>My Resumes</h4>
-        <div class="list-group w-50 mx-auto">
-            <?php
-            $uid = $_SESSION['user_id'];
-            $res = mysqli_query($conn, "SELECT * FROM resumes WHERE user_id='$uid'");
-            while ($row = mysqli_fetch_assoc($res)) {
-                echo "<a href='view.php?id=$row[id]' class='list-group-item list-group-item-action'> $row[title] <span class='badge bg-secondary float-end'>Download</span></a>";
-            }
-            ?>
+        <div class="list-group w-75 mx-auto">
+    <?php
+    $uid = $_SESSION['user_id'];
+    $res = mysqli_query($conn, "SELECT * FROM resumes WHERE user_id='$uid' ORDER BY id DESC");
+    
+    if(mysqli_num_rows($res) > 0) {
+        while ($row = mysqli_fetch_assoc($res)) {
+    ?>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-1 fw-bold"><?php echo $row['title']; ?></h5>
+                <span class="badge bg-light text-dark border"><?php echo $row['template']; ?></span>
+            </div>
+            <div>
+                <a href='view.php?id=<?php echo $row['id']; ?>' class='btn btn-primary btn-sm'>View PDF</a>
+                <a href='delete.php?id=<?php echo $row['id']; ?>' class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure you want to delete?');">Delete</a>
+            </div>
         </div>
+    <?php 
+        }
+    } else {
+        echo "<div class='alert alert-info text-center'>You haven't created any resumes yet.</div>";
+    }
+    ?>
+</div>
     </div>
 
 <?php } else { ?>

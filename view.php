@@ -1,9 +1,15 @@
 <?php
 include 'db.php';
-$id = $_GET['id'];
+$id = mysqli_real_escape_string($conn, $_GET['id']);
 $sql = "SELECT * FROM resumes JOIN users ON resumes.user_id = users.id WHERE resumes.id='$id'";
 $res = mysqli_query($conn, $sql);
 $data = mysqli_fetch_assoc($res);
+
+// Image Path Logic
+$img_path = "uploads/" . $data['profile_pic'];
+if(!file_exists($img_path) || empty($data['profile_pic'])) {
+    $img_path = "https://via.placeholder.com/150"; // Default placeholder
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +26,15 @@ $data = mysqli_fetch_assoc($res);
             margin: auto;
             padding: 40px;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         @media print {
             body { background: white; padding: 0; }
@@ -31,31 +46,37 @@ $data = mysqli_fetch_assoc($res);
 <body>
 
 <div class="container text-center mb-3 no-print">
-    <button onclick="window.print()" class="btn btn-warning fw-bold shadow"> Print / Save PDF</button>
+    <button onclick="window.print()" class="btn btn-warning fw-bold shadow">🖨 Print / Save PDF</button>
     <a href="index.php" class="btn btn-light ms-2">Back to Dashboard</a>
 </div>
 
 <div class="a4-page">
-    <div class="text-center border-bottom pb-3 mb-4">
-        <h1 class="fw-bold text-uppercase"><?php echo $data['name']; ?></h1>
-        <p class="mb-0 text-muted">
-            <?php echo $data['email']; ?> | <?php echo $data['phone']; ?>
-        </p>
+    <div class="row align-items-center border-bottom pb-4 mb-4">
+        <div class="col-3 text-center">
+            <img src="<?php echo $img_path; ?>" alt="Profile" class="profile-img">
+        </div>
+        <div class="col-9">
+            <h1 class="fw-bold text-uppercase text-dark"><?php echo $data['name']; ?></h1>
+            <p class="mb-0 text-muted fs-5">
+                📧 <?php echo $data['email']; ?> <br>
+                📱 <?php echo $data['phone']; ?>
+            </p>
+        </div>
     </div>
 
     <div class="mb-5">
-        <h4 class="text-uppercase text-primary border-bottom pb-2 mb-3"> Education</h4>
+        <h4 class="text-uppercase text-primary border-bottom pb-2 mb-3">🎓 Education</h4>
         <p class="lead fs-6"><?php echo nl2br($data['education']); ?></p>
     </div>
 
     <div class="mb-5">
-        <h4 class="text-uppercase text-primary border-bottom pb-2 mb-3"> Technical Skills</h4>
-        <p class="lead fs-6"><?php echo $data['skills']; ?></p>
+        <h4 class="text-uppercase text-primary border-bottom pb-2 mb-3">🛠 Technical Skills</h4>
+        <p class="lead fs-6"><?php echo nl2br($data['skills']); ?></p>
     </div>
 
     <div class="alert alert-light text-center text-muted mt-5 border rounded-pill">
-
-</div>
+        <small>Generated using Resume Builder • Template: <?php echo $data['template']; ?></small>
+    </div>
 </div>
 
 </body>
