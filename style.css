@@ -1,34 +1,92 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    color: #333;
+    font-family: 'Poppins', sans-serif;
+    /* The Gradient from your image */
+    background: linear-gradient(180deg, #000000 0%, #022c26 100%);
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden;
 }
-.box {
-    background: white;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+/* Navbar Customization */
+.navbar {
+    background: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-h2 { border-bottom: 2px solid #333; padding-bottom: 10px; }
-input, textarea, select {
-    width: 95%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #00ffcc !important; /* Neon Cyan Accent */
 }
-button {
-    background-color: #28a745; /* Green */
+
+/* GLASSMORPHISM CARD (The main effect) */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05); /* Very sheer white */
+    backdrop-filter: blur(16px); /* Blurs background behind it */
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
 }
-button:hover { background-color: #218838; }
-.btn-logout { background-color: #dc3545; float: right; text-decoration: none; color: white; padding: 5px 10px; border-radius: 3px; }
+
+/* Inputs inside Glass Card */
+.form-control, .form-select {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+}
+
+/* Placeholders Color */
+::placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(45deg, #00ffcc, #00b38f);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    color: #000;
+}
+
+.btn-danger {
+    background: #ff4d4d;
+    border: none;
+}
+
+/* List Group Items */
+.list-group-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    margin-bottom: 5px;
+    border-radius: 8px !important;
+    transition: 0.3s;
+}
+
+.list-group-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #004d40; border-radius: 4px; }

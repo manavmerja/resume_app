@@ -1,0 +1,10 @@
+# Ignore user uploads (Don't upload test photos)
+uploads/*
+!uploads/.gitkeep
+
+# Ignore system files
+Thumbs.db
+.DS_Store
+
+# Ignore VS Code settings
+.vscode/
