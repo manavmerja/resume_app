@@ -1,6 +1,4 @@
-CREATE DATABASE IF NOT EXISTS resume_pro;
-USE resume_pro;
-
+-- Users Table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -8,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL
 );
 
+-- Resumes Table
 CREATE TABLE IF NOT EXISTS resumes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
