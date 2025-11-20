@@ -1,9 +1,10 @@
 <?php
-// LIVE SERVER CREDENTIALS (InfinityFree se jo mila wo yahan daalo)
-$host = "sql210.infinityfree.com"; // Aapka Live Hostname
-$user = "if0_40456309";             // Aapka Live Username
-$pass = "Bk4EVcBWW1tbnX";          // Aapka Panel Password
-$db   = "if0_40456309_resume";      // Aapka Live DB Name
+// Database Configuration
+// NOTE: Change these credentials to match your local or live environment
+$host = "localhost";      // Ya "YOUR_HOST_HERE"
+$user = "root";           // Ya "YOUR_USERNAME_HERE"
+$pass = "";               // password 
+$db   = "resume_pro";     // Ya "YOUR_DB_NAME_HERE"
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
