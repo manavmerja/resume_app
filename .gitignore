@@ -8,3 +8,5 @@ Thumbs.db
 
 # Ignore VS Code settings
 .vscode/
+
+database.sql
