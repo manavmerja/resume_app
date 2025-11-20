@@ -9,4 +9,5 @@ Thumbs.db
 # Ignore VS Code settings
 .vscode/
 
-database.sql
+# Ignore Composer files
+*.sql
